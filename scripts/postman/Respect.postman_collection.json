@@ -1,0 +1,343 @@
+{
+	"info": {
+		"_postman_id": "10390afb-e58b-4b2e-ac6a-89100eafc6e5",
+		"name": "Respect",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create Respect Session",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e20175d2-afc8-4179-9cdf-a0c10bbdf791",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);\r",
+							"postman.setEnvironmentVariable(\"sessionId\", jsonData.sessionId);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-max-session",
+						"value": "75",
+						"disabled": true
+					},
+					{
+						"key": "x-session-timeout",
+						"value": "120000"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/rest/v1/session?username={{Username}}&password={{Password}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"rest",
+						"v1",
+						"session"
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": "{{Username}}"
+						},
+						{
+							"key": "password",
+							"value": "{{Password}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Ehr",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "582246a7-cd05-43f7-a3ab-9b587dae2e0a",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);\r",
+							"postman.setEnvironmentVariable(\"ehrId\", jsonData.ehrId);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Ehr-Session",
+						"value": "{{sessionId}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/rest/v1/ehr?subjectId={{subjectId}}&subjectNamespace=uk.nhs.nhs_number",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"rest",
+						"v1",
+						"ehr"
+					],
+					"query": [
+						{
+							"key": "subjectId",
+							"value": "{{subjectId}}"
+						},
+						{
+							"key": "subjectNamespace",
+							"value": "uk.nhs.nhs_number"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Ehr",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Ehr-Session",
+						"value": "{{sessionId}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/rest/v1/ehr/{{ehrId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"rest",
+						"v1",
+						"ehr",
+						"{{ehrId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Respect Form",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1c4f3b1d-098a-499f-a46b-a5e4136dd6bf",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);\r",
+							"postman.setEnvironmentVariable(\"compositionId\", jsonData.compositionUid);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Ehr-Session",
+						"value": "{{sessionId}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": " {\n    \"ctx/composer_name\": \"Alan Nicol\",\n    \"ctx/language\": \"en\",\n    \"ctx/territory\": \"GB\",\n    \"respect_form/name\": \"Respect Form 1\",\n    \"respect_form/language\": \"en\",\n    \"respect_form/_uid\": \"54dcd1d0-9dfb-454b-b537-d59831cb54e5::example.ethercis.com::1\",\n\t\"respect_form/language|code\": \"en\",\n\t\"respect_form/language|terminology\": \"ISO_639-1\",\n\t\"respect_form/territory|code\": \"GB\",\n\t\"respect_form/territory|terminology\": \"ISO_3166-1\",\n\t\"respect_form/context/_health_care_facility|id\": \"123456-123\",\n\t\"respect_form/context/_health_care_facility|id_scheme\": \"ETHERCIS-SCHEME\",\n\t\"respect_form/context/_health_care_facility|id_namespace\": \"DEMOGRAPHIC\",\n\t\"respect_form/context/_health_care_facility|name\": \"GJNH\",\n\t\"respect_form/context/start_time\": \"2019-02-22T13:26:02.545Z\",\n\t\"respect_form/context/setting|code\": \"238\",\n\t\"respect_form/context/setting|value\": \"Other Care\",\n\t\"respect_form/context/setting|terminology\": \"openehr\",\n\t\"respect_form/composer|id\": \"1234-5678\",\n\t\n\t\"respect_form/respect_headings:0/a2._summary_of_relevant_information/a2.1_key_diagnoses/problem_diagnosis:0/key_diagnosis\": \"Key Diagnosis\",\n\t\"respect_form/respect_headings:0/a2._summary_of_relevant_information/a2.1_key_diagnoses/problem_diagnosis:0/clinical_description\": \"Clinical Description\",\n\t\"respect_form/respect_headings:0/a2._summary_of_relevant_information/a2.1_key_diagnoses/problem_diagnosis:0/language|code\": \"en\",\n\t\"respect_form/respect_headings:0/a2._summary_of_relevant_information/a2.1_key_diagnoses/problem_diagnosis:0/language|terminology\": \"ISO_639-1\",\n\t\"respect_form/respect_headings:0/a2._summary_of_relevant_information/a2.1_key_diagnoses/problem_diagnosis:0/encoding|code\": \"UTF-8\",\n\t\"respect_form/respect_headings:0/a2._summary_of_relevant_information/a2.1_key_diagnoses/problem_diagnosis:0/encoding|terminology\": \"IANA_character-sets\",\n\t\"respect_form/respect_headings:0/a2._summary_of_relevant_information/a2.2_other_relevant_conditions/problem_diagnosis:0/other_relevant_condition\": \"Other Relevant Diagnosis\",\n    \"respect_form/respect_headings:0/a2._summary_of_relevant_information/a2.2_other_relevant_conditions/problem_diagnosis:0/clinical_description\": \"Clinical Description\",\n    \"respect_form/respect_headings:0/a2._summary_of_relevant_information/a2.2_other_relevant_conditions/problem_diagnosis:0/language|code\": \"en\",\n    \"respect_form/respect_headings:0/a2._summary_of_relevant_information/a2.2_other_relevant_conditions/problem_diagnosis:0/language|terminology\": \"ISO_639-1\",\n    \"respect_form/respect_headings:0/a2._summary_of_relevant_information/a2.2_other_relevant_conditions/problem_diagnosis:0/encoding|code\": \"UTF-8\",\n    \"respect_form/respect_headings:0/a2._summary_of_relevant_information/a2.2_other_relevant_conditions/problem_diagnosis:0/encoding|terminology\": \"IANA_character-sets\",\n\t\"respect_form/respect_headings:0/a3._personal_preferences/preferred_priorities_of_care/care_priority_scale\": 50,\n\t\"respect_form/respect_headings:0/a3._personal_preferences/preferred_priorities_of_care/patient_care_priority\": \"Patient care priority\",\n\t\"respect_form/respect_headings:0/a3._personal_preferences/preferred_priorities_of_care/language|code\": \"en\",\n\t\"respect_form/respect_headings:0/a3._personal_preferences/preferred_priorities_of_care/language|terminology\": \"ISO_639-1\",\n\t\"respect_form/respect_headings:0/a3._personal_preferences/preferred_priorities_of_care/encoding|code\": \"UTF-8\",\n\t\"respect_form/respect_headings:0/a3._personal_preferences/preferred_priorities_of_care/encoding|terminology\": \"IANA_character-sets\",\n\t\"respect_form/respect_headings:0/a4._clinical_recommendations/recommendation/clinical_focus\": \"Life-sustaining treatment\",\n\t\"respect_form/respect_headings:0/a4._clinical_recommendations/recommendation/clinical_guidance_on_interventions\": \"Clinician guidance on interventions\",\n\t\"respect_form/respect_headings:0/a4._clinical_recommendations/recommendation/language|code\": \"en\",\n\t\"respect_form/respect_headings:0/a4._clinical_recommendations/recommendation/language|terminology\": \"ISO_639-1\",\n\t\"respect_form/respect_headings:0/a4._clinical_recommendations/recommendation/encoding|code\": \"UTF-8\",\n\t\"respect_form/respect_headings:0/a4._clinical_recommendations/recommendation/encoding|terminology\": \"IANA_character-sets\",\n    \"respect_form/respect_headings:0/a4._clinical_recommendations/cpr_decision/cpr_decision|code\": \"at0004\",\n    \"respect_form/respect_headings:0/a4._clinical_recommendations/cpr_decision/cpr_decision|value\": \"CPR attempts recommended adult or child\",\n    \"respect_form/respect_headings:0/a4._clinical_recommendations/cpr_decision/cpr_decision|terminology\": \"local\",\n    \"respect_form/respect_headings:0/a4._clinical_recommendations/cpr_decision/date_of_cpr_decision\": \"2019-02-22T00:00:00.000Z\",\n    \"respect_form/respect_headings:0/a4._clinical_recommendations/cpr_decision/details_for_modified_cpr_child_only\": \"\",\n    \"respect_form/respect_headings:0/a4._clinical_recommendations/cpr_decision/language|code\": \"en\",\n    \"respect_form/respect_headings:0/a4._clinical_recommendations/cpr_decision/language|terminology\": \"ISO_639-1\",\n    \"respect_form/respect_headings:0/a4._clinical_recommendations/cpr_decision/encoding|code\": \"UTF-8\",\n    \"respect_form/respect_headings:0/a4._clinical_recommendations/cpr_decision/encoding|terminology\": \"IANA_character-sets\",\n    \"respect_form/respect_headings:0/a9._confirmation_of_validity/service:0/ism_transition/current_state|code\": \"526\",\n    \"respect_form/respect_headings:0/a9._confirmation_of_validity/service:0/ism_transition/current_state|value\": \"planned\",\n    \"respect_form/respect_headings:0/a9._confirmation_of_validity/service:0/ism_transition/current_state|terminology\": \"openehr\",\n    \"respect_form/respect_headings:0/a9._confirmation_of_validity/service:0/ism_transition/careflow_step|code\": \"at0002\",\n    \"respect_form/respect_headings:0/a9._confirmation_of_validity/service:0/ism_transition/careflow_step|value\": \"Service planned\",\n    \"respect_form/respect_headings:0/a9._confirmation_of_validity/service:0/ism_transition/careflow_step|terminology\": \"local\",\n    \"respect_form/respect_headings:0/a9._confirmation_of_validity/service:0/individual_professional_demographics_uk/person_name/clinician_name\": \"Clinician Name\",\n    \"respect_form/respect_headings:0/a9._confirmation_of_validity/service:0/individual_professional_demographics_uk/comms_contact_details:0/telephone\": \"Telephone\",\n    \"respect_form/respect_headings:0/a9._confirmation_of_validity/service:0/individual_professional_demographics_uk/comms_contact_details_1/email\": \"email@email.com\",\n    \"respect_form/respect_headings:0/a9._confirmation_of_validity/service:0/individual_professional_demographics_uk/specialty\": \"Specialty\",\n    \"respect_form/respect_headings:0/a9._confirmation_of_validity/service:0/individual_professional_demographics_uk/grade\": \"Grade\",\n    \"respect_form/respect_headings:0/a9._confirmation_of_validity/service:0/individual_professional_demographics_uk/professional_identifier\": \"Professional Identifier\",\n    \"respect_form/respect_headings:0/a9._confirmation_of_validity/service:0/individual_professional_demographics_uk/professional_identifier|issuer\": \"Issuer\",\n    \"respect_form/respect_headings:0/a9._confirmation_of_validity/service:0/individual_professional_demographics_uk/professional_identifier|assigner\": \"Assigner\",\n    \"respect_form/respect_headings:0/a9._confirmation_of_validity/service:0/individual_professional_demographics_uk/professional_identifier|type\": \"Type\",\n    \"respect_form/respect_headings:0/a9._confirmation_of_validity/service:0/review_date\": \"1900-01-01T00:00:00.000Z\",\n    \"respect_form/respect_headings:0/a9._confirmation_of_validity/service:0/time\": \"1900-01-01T00:00:00.000Z\",\n    \"respect_form/respect_headings:0/a9._confirmation_of_validity/service:0/language|code\": \"en\",\n    \"respect_form/respect_headings:0/a9._confirmation_of_validity/service:0/language|terminology\": \"ISO_639-1\",\n    \"respect_form/respect_headings:0/a9._confirmation_of_validity/service:0/encoding|code\": \"UTF-8\",\n    \"respect_form/respect_headings:0/a9._confirmation_of_validity/service:0/encoding|terminology\": \"IANA_character-sets\",\n\t\"respect_form/composer|id_scheme\": \"ETHERCIS-TEST\",\n\t\"respect_form/composer|id_namespace\": \"DEMOGRAPHIC\"\n}\n"
+				},
+				"url": {
+					"raw": "http://localhost:8080/rest/v1/composition?ehrId={{ehrId}}&templateId={{templateId}}&format=FLAT",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"rest",
+						"v1",
+						"composition"
+					],
+					"query": [
+						{
+							"key": "ehrId",
+							"value": "{{ehrId}}"
+						},
+						{
+							"key": "templateId",
+							"value": "{{templateId}}"
+						},
+						{
+							"key": "format",
+							"value": "FLAT"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Respect Form",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Ehr-Session",
+						"value": "{{sessionId}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/rest/v1/composition/{{compositionId}}?format=RAW",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"rest",
+						"v1",
+						"composition",
+						"{{compositionId}}"
+					],
+					"query": [
+						{
+							"key": "format",
+							"value": "RAW"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Respect Form",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Ehr-Session",
+						"value": "{{sessionId}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"ctx/composer_name\": \"Alan Nicol\",\n    \"ctx/language\": \"en\",\n    \"ctx/territory\": \"GB\",\n    \"respect_form/name\": \"Respect Form 1 Update\",\n    \"respect_form/language\": \"en\",\n    \"respect_form/_uid\": \"54dcd1d0-9dfb-454b-b537-d59831cb54e5::example.ethercis.com::1\",\n\t\"respect_form/language|code\": \"en\",\n\t\"respect_form/language|terminology\": \"ISO_639-1\",\n\t\"respect_form/territory|code\": \"GB\",\n\t\"respect_form/territory|terminology\": \"ISO_3166-1\",\n\t\"respect_form/context/_health_care_facility|id\": \"123456-123\",\n\t\"respect_form/context/_health_care_facility|id_scheme\": \"ETHERCIS-SCHEME\",\n\t\"respect_form/context/_health_care_facility|id_namespace\": \"DEMOGRAPHIC\",\n\t\"respect_form/context/_health_care_facility|name\": \"GJNH\",\n\t\"respect_form/context/start_time\": \"2019-02-22T13:26:02.545Z\",\n\t\"respect_form/context/setting|code\": \"238\",\n\t\"respect_form/context/setting|value\": \"Other Care\",\n\t\"respect_form/context/setting|terminology\": \"openehr\",\n\t\"respect_form/composer|id\": \"1234-5678\",\n\t\n\t\"respect_form/respect_headings:0/a2._summary_of_relevant_information/a2.1_key_diagnoses/problem_diagnosis:0/key_diagnosis\": \"Key Diagnosis\",\n\t\"respect_form/respect_headings:0/a2._summary_of_relevant_information/a2.1_key_diagnoses/problem_diagnosis:0/clinical_description\": \"Clinical Description\",\n\t\"respect_form/respect_headings:0/a2._summary_of_relevant_information/a2.1_key_diagnoses/problem_diagnosis:0/language|code\": \"en\",\n\t\"respect_form/respect_headings:0/a2._summary_of_relevant_information/a2.1_key_diagnoses/problem_diagnosis:0/language|terminology\": \"ISO_639-1\",\n\t\"respect_form/respect_headings:0/a2._summary_of_relevant_information/a2.1_key_diagnoses/problem_diagnosis:0/encoding|code\": \"UTF-8\",\n\t\"respect_form/respect_headings:0/a2._summary_of_relevant_information/a2.1_key_diagnoses/problem_diagnosis:0/encoding|terminology\": \"IANA_character-sets\",\n\t\"respect_form/respect_headings:0/a2._summary_of_relevant_information/a2.2_other_relevant_conditions/problem_diagnosis:0/other_relevant_condition\": \"Other Relevant Diagnosis\",\n    \"respect_form/respect_headings:0/a2._summary_of_relevant_information/a2.2_other_relevant_conditions/problem_diagnosis:0/clinical_description\": \"Clinical Description\",\n    \"respect_form/respect_headings:0/a2._summary_of_relevant_information/a2.2_other_relevant_conditions/problem_diagnosis:0/language|code\": \"en\",\n    \"respect_form/respect_headings:0/a2._summary_of_relevant_information/a2.2_other_relevant_conditions/problem_diagnosis:0/language|terminology\": \"ISO_639-1\",\n    \"respect_form/respect_headings:0/a2._summary_of_relevant_information/a2.2_other_relevant_conditions/problem_diagnosis:0/encoding|code\": \"UTF-8\",\n    \"respect_form/respect_headings:0/a2._summary_of_relevant_information/a2.2_other_relevant_conditions/problem_diagnosis:0/encoding|terminology\": \"IANA_character-sets\",\n\t\"respect_form/respect_headings:0/a3._personal_preferences/preferred_priorities_of_care/care_priority_scale\": 50,\n\t\"respect_form/respect_headings:0/a3._personal_preferences/preferred_priorities_of_care/patient_care_priority\": \"Patient care priority\",\n\t\"respect_form/respect_headings:0/a3._personal_preferences/preferred_priorities_of_care/language|code\": \"en\",\n\t\"respect_form/respect_headings:0/a3._personal_preferences/preferred_priorities_of_care/language|terminology\": \"ISO_639-1\",\n\t\"respect_form/respect_headings:0/a3._personal_preferences/preferred_priorities_of_care/encoding|code\": \"UTF-8\",\n\t\"respect_form/respect_headings:0/a3._personal_preferences/preferred_priorities_of_care/encoding|terminology\": \"IANA_character-sets\",\n\t\"respect_form/respect_headings:0/a4._clinical_recommendations/recommendation/clinical_focus\": \"Life-sustaining treatment\",\n\t\"respect_form/respect_headings:0/a4._clinical_recommendations/recommendation/clinical_guidance_on_interventions\": \"Clinician guidance on interventions\",\n\t\"respect_form/respect_headings:0/a4._clinical_recommendations/recommendation/language|code\": \"en\",\n\t\"respect_form/respect_headings:0/a4._clinical_recommendations/recommendation/language|terminology\": \"ISO_639-1\",\n\t\"respect_form/respect_headings:0/a4._clinical_recommendations/recommendation/encoding|code\": \"UTF-8\",\n\t\"respect_form/respect_headings:0/a4._clinical_recommendations/recommendation/encoding|terminology\": \"IANA_character-sets\",\n    \"respect_form/respect_headings:0/a4._clinical_recommendations/cpr_decision/cpr_decision|code\": \"at0004\",\n    \"respect_form/respect_headings:0/a4._clinical_recommendations/cpr_decision/cpr_decision|value\": \"CPR attempts recommended adult or child\",\n    \"respect_form/respect_headings:0/a4._clinical_recommendations/cpr_decision/cpr_decision|terminology\": \"local\",\n    \"respect_form/respect_headings:0/a4._clinical_recommendations/cpr_decision/date_of_cpr_decision\": \"2019-02-22T00:00:00.000Z\",\n    \"respect_form/respect_headings:0/a4._clinical_recommendations/cpr_decision/details_for_modified_cpr_child_only\": \"\",\n    \"respect_form/respect_headings:0/a4._clinical_recommendations/cpr_decision/language|code\": \"en\",\n    \"respect_form/respect_headings:0/a4._clinical_recommendations/cpr_decision/language|terminology\": \"ISO_639-1\",\n    \"respect_form/respect_headings:0/a4._clinical_recommendations/cpr_decision/encoding|code\": \"UTF-8\",\n    \"respect_form/respect_headings:0/a4._clinical_recommendations/cpr_decision/encoding|terminology\": \"IANA_character-sets\",\n    \"respect_form/respect_headings:0/a9._confirmation_of_validity/service:0/ism_transition/current_state|code\": \"526\",\n    \"respect_form/respect_headings:0/a9._confirmation_of_validity/service:0/ism_transition/current_state|value\": \"planned\",\n    \"respect_form/respect_headings:0/a9._confirmation_of_validity/service:0/ism_transition/current_state|terminology\": \"openehr\",\n    \"respect_form/respect_headings:0/a9._confirmation_of_validity/service:0/ism_transition/careflow_step|code\": \"at0002\",\n    \"respect_form/respect_headings:0/a9._confirmation_of_validity/service:0/ism_transition/careflow_step|value\": \"Service planned\",\n    \"respect_form/respect_headings:0/a9._confirmation_of_validity/service:0/ism_transition/careflow_step|terminology\": \"local\",\n    \"respect_form/respect_headings:0/a9._confirmation_of_validity/service:0/individual_professional_demographics_uk/person_name/clinician_name\": \"Clinician Name\",\n    \"respect_form/respect_headings:0/a9._confirmation_of_validity/service:0/individual_professional_demographics_uk/comms_contact_details:0/telephone\": \"Telephone\",\n    \"respect_form/respect_headings:0/a9._confirmation_of_validity/service:0/individual_professional_demographics_uk/comms_contact_details_1/email\": \"email@email.com\",\n    \"respect_form/respect_headings:0/a9._confirmation_of_validity/service:0/individual_professional_demographics_uk/specialty\": \"Specialty\",\n    \"respect_form/respect_headings:0/a9._confirmation_of_validity/service:0/individual_professional_demographics_uk/grade\": \"Grade\",\n    \"respect_form/respect_headings:0/a9._confirmation_of_validity/service:0/individual_professional_demographics_uk/professional_identifier\": \"Professional Identifier\",\n    \"respect_form/respect_headings:0/a9._confirmation_of_validity/service:0/individual_professional_demographics_uk/professional_identifier|issuer\": \"Issuer\",\n    \"respect_form/respect_headings:0/a9._confirmation_of_validity/service:0/individual_professional_demographics_uk/professional_identifier|assigner\": \"Assigner\",\n    \"respect_form/respect_headings:0/a9._confirmation_of_validity/service:0/individual_professional_demographics_uk/professional_identifier|type\": \"Type\",\n    \"respect_form/respect_headings:0/a9._confirmation_of_validity/service:0/review_date\": \"1900-01-01T00:00:00.000Z\",\n    \"respect_form/respect_headings:0/a9._confirmation_of_validity/service:0/time\": \"1900-01-01T00:00:00.000Z\",\n    \"respect_form/respect_headings:0/a9._confirmation_of_validity/service:0/language|code\": \"en\",\n    \"respect_form/respect_headings:0/a9._confirmation_of_validity/service:0/language|terminology\": \"ISO_639-1\",\n    \"respect_form/respect_headings:0/a9._confirmation_of_validity/service:0/encoding|code\": \"UTF-8\",\n    \"respect_form/respect_headings:0/a9._confirmation_of_validity/service:0/encoding|terminology\": \"IANA_character-sets\",\n\t\"respect_form/composer|id_scheme\": \"ETHERCIS-TEST\",\n\t\"respect_form/composer|id_namespace\": \"DEMOGRAPHIC\"\n}\n"
+				},
+				"url": {
+					"raw": "http://localhost:8080/rest/v1/composition/{{compositionId}}?format=FLAT&templateId={{templateId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"rest",
+						"v1",
+						"composition",
+						"{{compositionId}}"
+					],
+					"query": [
+						{
+							"key": "format",
+							"value": "FLAT"
+						},
+						{
+							"key": "templateId",
+							"value": "{{templateId}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Respect Form",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Ehr-Session",
+						"value": "{{sessionId}}"
+					},
+					{
+						"key": "format",
+						"value": "STRUCTURED"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8080/rest/v1/composition/{{compositionId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"rest",
+						"v1",
+						"composition",
+						"{{compositionId}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
