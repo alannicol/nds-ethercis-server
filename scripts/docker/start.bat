@@ -1,0 +1,1 @@
+docker run -it --name ethercis -p 8080:8080 nesnds/ethercis
