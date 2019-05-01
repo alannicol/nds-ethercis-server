@@ -9,7 +9,7 @@ To point the server at a different database, modify the services.properties file
 
 
 ### Getting this running
-The docker can be ran by either cloning the repo or grabbing the image from docker hub, both are detailed below. Note that you should already have the ([ethercis-database-docker](https://github.com/ethercis/ethercis-database-docker)) running before hand on port 172.18.0.10 (default).
+The docker can be ran by either cloning the repo or grabbing the image from docker hub, both are detailed below. Note that you should already have the ([ethercis-database-docker](https://github.com/ethercis/ethercis-database-docker)) running before hand on port 172.18.0.10 (see above).
 
 Also note, the below docker commands assumes there has already been a network called `dev-network` created.
 ```
