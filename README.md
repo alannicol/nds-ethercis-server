@@ -3,34 +3,20 @@
 
 This is a docker image for running v1.3 of ethercis server.
 
-### Configuration Notes
-
-To point the server at a different database, modify the services.properties file "server.persistence.jooq.url" value. Currently it points at 172.18.0.10 where we expect to the database to be hosted.
-
 
 ### Getting this running
-The docker can be ran by either cloning the repo or grabbing the image from docker hub, both are detailed below. Note that you should already have the ([ethercis-database-docker](https://github.com/ethercis/ethercis-database-docker)) running before hand on port 172.18.0.10 (default).
+The docker image is hosted on docker hub ([nesnds/ethercis-server](https://cloud.docker.com/u/nesnds/repository/docker/nesnds/ethercis-server)). 
+Note that you should already have the ([ethercis-database-docker](https://github.com/ethercis/ethercis-database-docker)) running before creating this container.
 
-Also note, the below docker commands assumes there has already been a network called `dev-network` created.
-```
-docker network create --subnet=172.18.0.0/16 dev-network
-```
-
-#### Steps to get this running
-```
-git clone <this repo>
-docker build --tag=nesnds/ethercis-server .
-docker run --name ethercis-server --net dev-network --ip 172.18.0.11 -p 8080:8080 nesnds/ethercis-server
-Run the migration script mentioned below (temporary)
-```
-
-#### Alternatively pull the image from docker hub, and then run it
+#### Pull the image from docker hub, and then run it
+The default environment variables will suit if you have not already changed them on your ethercis database. host.docker.internal is a special DNS that will resolve to the host machine on windows and macOS.
 ```
 docker pull nesnds/ethercis-server
-docker run --name ethercis-server --net dev-network --ip 172.18.0.11 -p 8080:8080 nesnds/ethercis-server
+docker run --name ethercis-server -e DB_IP=host.docker.internal -e DB_PORT=5432 -e DB_USER=postgres -e DB_PW=postgres -p 8084:8080 nesnds/ethercis-server
 Run the migration script mentioned below(temporary)
 ```
 
 #### Temporary migration step
 
-There is a temporary file \scripts\migration\v9_migration.sql which currently requires to be run after the container is initialised due to a bug in https://github.com/ethercis/ehrservice/blob/remote-github/db/src/main/resources/db/migration/V9__feeder_audit.sql
+There is a temporary file \scripts\migration\v9_migration.sql which currently requires to be run against the database after this container is created due to a bug in https://github.com/ethercis/ehrservice/blob/remote-github/db/src/main/resources/db/migration/V9__feeder_audit.sql, this note should be removed once the bug is fixed.
+Github issue - https://github.com/ethercis/ehrservice/issues/20
