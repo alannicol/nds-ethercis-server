@@ -1,8 +1,0 @@
-1. Run the start script "start.bat" or "start.sh" (This should pull the postgresql:10) and run the docker container with a mapped volume to /data, for ease of script access.
-2. Connect to the docker container with bash, "docker exec -i -t ethercis-db /bin/bash".
-3. Copy the pg_hba.conf file to the /var/lib/postgresql/data directory, "cp pg_hba.conf /var/lib/postgresql/data".
-4. Exit the docker container "exit".
-5. Restart the docker container "docker restart ethercis-db".
-6. Connect to the docker container with bash, "docker exec -i -t ethercis-db /bin/bash".
-7. Run the build ethercis database script "./build-database", this may take some time and require Y/N prompts from time to time.
-8. Once complete check that you can connect to Postgres using pg admin.
