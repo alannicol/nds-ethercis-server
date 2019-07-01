@@ -20,3 +20,8 @@ Run the migration script mentioned below(temporary)
 
 There is a temporary file \scripts\migration\v9_migration.sql which currently requires to be run against the database after this container is created due to a bug in https://github.com/ethercis/ehrservice/blob/remote-github/db/src/main/resources/db/migration/V9__feeder_audit.sql, this note should be removed once the bug is fixed.
 Github issue - https://github.com/ethercis/ehrservice/issues/20
+
+#### Templates
+There are 2 ReSPECT templates
+RESPECT_form_2-v0.opt - I think this one is from https://ckm.apperta.org/ckm/
+RESPECT_NSS-v0.opt - https://github.com/RippleOSI/Ripple-openEHR/blob/master/technical/operational/RESPECT_NSS-v0.opt (This is the one we use)
